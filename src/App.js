@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useQuery } from "react-query";
+import { Container, Row, Col, Image } from "react-bootstrap";
+import PulseLoader from "react-spinners/PulseLoader";
 
-function App() {
+import "./App.css";
+
+export default function App() {
+  const { isLoading, error, data } = useQuery("cats", () =>
+    fetch(
+      `https://api.thecatapi.com/v1/breeds/search?api_key=${process.env.REACT_APP_CAT_API_KEY}`
+    ).then((res) => res.json())
+  );
+
+  if (isLoading) {
+    //console.log(process.env);
+    return (
+      <div className="App">
+        <PulseLoader size={20} color="teal" />
+      </div>
+    );
+  } else if (error) {
+    return "Error!!";
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Row>
+        <Col>
+          <div className="App">
+            <Image fluid src={data.image} alt="random user" />
+            <code>{JSON.stringify(data, null, 2)}</code>
+            <h4>cats</h4>
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 }
-
-export default App;
