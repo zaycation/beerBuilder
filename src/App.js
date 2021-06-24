@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 import Beers from "./components/Beers";
 import BeerDeets from "./components/BeerDetails";

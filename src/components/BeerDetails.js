@@ -20,6 +20,17 @@ function BreedDetails({ beerId }) {
   } else if (error) {
     return "Error!!";
   }
+  let fermTemp;
+  let mashTemp;
+  if (beerId) {
+    fermTemp = beer[0].method.fermentation.temp.value;
+    mashTemp = beer[0].method.mash_temp[0].temp.value;
+  } else {
+    fermTemp = 0;
+    mashTemp = 0;
+  }
+  const fermToF = (fermTemp * 9) / 5 + 32;
+  const mashToF = (mashTemp * 9) / 5 + 32;
 
   if (beerId) {
     return (
@@ -31,10 +42,11 @@ function BreedDetails({ beerId }) {
                 <Card.Body>
                   <h3>{beer[0].name}</h3>
                   <h6>{beer[0].tagline}</h6>
+                  <Card.Text>First Brewed: {beer[0].first_brewed}</Card.Text>
                   <Card.Text>
-                    ABV : {beer[0].abv}% | IBU: {beer[0].ibu} | pH: {beer[0].ph}
+                    ABV: {beer[0].abv}% | IBU: {beer[0].ibu} | pH: {beer[0].ph}
                   </Card.Text>
-                  <h5>Recommended Food Pairings:</h5>
+                  <h5>Food Pairings:</h5>
                   <ul>
                     <li>{beer[0].food_pairing[0]}</li>
                     <li>{beer[0].food_pairing[1]}</li>
@@ -66,6 +78,19 @@ function BreedDetails({ beerId }) {
                       ))}
                     </ul>
                   </Card.Text>
+                  <Card.Text>
+                    Volume:{beer[0].volume.value}ltr | Boil Volume:
+                    {beer[0].boil_volume.value}ltr
+                  </Card.Text>
+                  <h5>Brewers Tips:</h5>
+                  <Card.Text>{beer[0].brewers_tips}</Card.Text>
+                  <h5>Fermentation Temp:</h5>
+                  <Card.Text>{fermToF}°F</Card.Text>
+                  <h5>Mash Temp:</h5>
+                  <Card.Text>{mashToF}°F</Card.Text>
+                  <Card.Text>
+                    Duration: {beer[0].method.mash_temp[0].duration}
+                  </Card.Text>
                 </Card.Body>
               </Card>
             </Col>
@@ -86,6 +111,7 @@ function BreedDetails({ beerId }) {
           <Card.Text>Beer Tagline</Card.Text>
           <Card.Text>ABV% | IBU | pH</Card.Text>
           <Card.Text>Beer Description</Card.Text>
+          <Card.Text>Beer Ingredients</Card.Text>
         </Card.Body>
         <Card.Img variant="bottom" src="https://via.placeholder.com/350x150" />
       </Card>
